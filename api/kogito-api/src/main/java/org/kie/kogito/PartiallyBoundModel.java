@@ -16,37 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jbpm.process.codegen;
+package org.kie.kogito;
 
-import org.kie.kogito.MapInput;
-import org.kie.kogito.MapInputId;
-import org.kie.kogito.MapOutput;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
-import org.kie.kogito.MappableToModel;
-import org.kie.kogito.Model;
-import org.kie.kogito.PartiallyBoundModel;
+/**
+ * To be implemented by generated model classes that track which fields were
+ * actually set during deserialization, so a partial update can tell an
+ * explicit null apart from an omitted field.
+ */
+public interface PartiallyBoundModel {
 
-public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, MapOutput, MappableToModel<$modelClass$>, PartiallyBoundModel {
-
-    private String id;
-
-    private final Set<String> __presentFields = new HashSet<>();
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public String getId() {
-        return this.id;
-    }
-
-    public Set<String> presentFields() {
-        return __presentFields;
-    }
+    /**
+     * Names of the fields that were explicitly set on this instance
+     */
+    Set<String> presentFields();
 
 }

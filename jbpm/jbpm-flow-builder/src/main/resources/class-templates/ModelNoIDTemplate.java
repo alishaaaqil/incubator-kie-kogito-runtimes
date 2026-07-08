@@ -24,11 +24,20 @@ import org.kie.kogito.MapOutput;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
+import org.kie.kogito.PartiallyBoundModel;
 
 public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
-                                 MappableToModel<$modelClass$> {
+                                 MappableToModel<$modelClass$>, PartiallyBoundModel {
+
+    private final Set<String> __presentFields = new HashSet<>();
+
+    public Set<String> presentFields() {
+        return __presentFields;
+    }
 
 }

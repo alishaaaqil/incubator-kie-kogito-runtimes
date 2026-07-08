@@ -225,7 +225,12 @@ public class ModelMetaData {
             applyOpenApiSchemaAnnotation(fd);
 
             fd.createGetter();
-            fd.createSetter();
+            MethodDeclaration setter = fd.createSetter();
+            if (isInputModel()) {
+                setter.getBody().ifPresent(setterBody -> setterBody.addStatement(
+                        new MethodCallExpr(new NameExpr("__presentFields"), "add",
+                                NodeList.nodeList(new StringLiteralExpr(sanitizedName)))));
+            }
 
         }
 
@@ -263,6 +268,10 @@ public class ModelMetaData {
                         .setType(type)
                         .setName(name))
                 .addModifier(Modifier.Keyword.PRIVATE);
+    }
+
+    private boolean isInputModel() {
+        return "/class-templates/ModelNoIDTemplate.java".equals(templateName);
     }
 
     public String getModelClassSimpleName() {
