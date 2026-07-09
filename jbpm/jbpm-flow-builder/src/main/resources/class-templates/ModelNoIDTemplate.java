@@ -31,11 +31,18 @@ import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
 import org.kie.kogito.PartiallyBoundModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
                                  MappableToModel<$modelClass$>, PartiallyBoundModel {
 
-    private final Set<String> __presentFields = new HashSet<>();
+    @JsonIgnore
+    @Schema(hidden = true)
+    private transient final Set<String> __presentFields = new HashSet<>();
 
+    @JsonIgnore
+    @Schema(hidden = true)
     public Set<String> presentFields() {
         return __presentFields;
     }
