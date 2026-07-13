@@ -227,9 +227,13 @@ public class ModelMetaData {
             fd.createGetter();
             MethodDeclaration setter = fd.createSetter();
             if (isInputModel()) {
+                // Only the Input class's setters are driven by Jackson deserialization of the
+                // incoming request; the runtime Model/Output classes reuse this same setter
+                // generation but their setters are also called by generated copy loops (e.g.
+                // toModel()), so instrumenting them there would record "copied" as "present".
                 setter.getBody().ifPresent(setterBody -> setterBody.addStatement(
-                        new MethodCallExpr(new NameExpr("__presentFields"), "add",
-                                NodeList.nodeList(new StringLiteralExpr(sanitizedName)))));
+                        new MethodCallExpr(null, "markModified",
+                                NodeList.nodeList(new StringLiteralExpr(varName)))));
             }
 
         }

@@ -29,22 +29,31 @@ import java.util.Set;
 
 import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
-import org.kie.kogito.PartiallyBoundModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
-                                 MappableToModel<$modelClass$>, PartiallyBoundModel {
+                                 MappableToModel<$modelClass$> {
+
+    // This class is only ever used as an ephemeral REST request-body carrier (POST/PATCH),
+    // so it always tracks modifications - unlike the Model/Output class, it never plays a
+    // "plain, untracked" role, so this can safely be eager/non-null from construction.
+    @JsonIgnore
+    @Schema(hidden = true)
+    private transient final Set<String> __modifiedFields = new HashSet<>();
 
     @JsonIgnore
     @Schema(hidden = true)
-    private transient final Set<String> __presentFields = new HashSet<>();
+    @Override
+    public Set<String> getModifiedFields() {
+        return __modifiedFields;
+    }
 
-    @JsonIgnore
-    @Schema(hidden = true)
-    public Set<String> presentFields() {
-        return __presentFields;
+    // Package-private: invoked from generated setters as each field is deserialized,
+    // so an omitted field and an explicit null can be told apart downstream.
+    void markModified(String field) {
+        __modifiedFields.add(field);
     }
 
 }

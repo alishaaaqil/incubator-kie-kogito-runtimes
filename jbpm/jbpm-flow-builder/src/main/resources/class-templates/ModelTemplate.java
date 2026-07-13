@@ -29,18 +29,17 @@ import java.util.Set;
 
 import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
-import org.kie.kogito.PartiallyBoundModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, MapOutput, MappableToModel<$modelClass$>, PartiallyBoundModel {
+public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, MapOutput, MappableToModel<$modelClass$> {
 
     private String id;
 
     @JsonIgnore
     @Schema(hidden = true)
-    private transient final Set<String> __presentFields = new HashSet<>();
+    private transient Set<String> __modifiedFields;
 
     public void setId(String id) {
         this.id = id;
@@ -52,8 +51,31 @@ public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, Map
 
     @JsonIgnore
     @Schema(hidden = true)
-    public Set<String> presentFields() {
-        return __presentFields;
+    @Override
+    public Set<String> getModifiedFields() {
+        return __modifiedFields;
+    }
+
+    // Package-private: used only by generated toModel() copy methods to carry the
+    // modified-fields set from a PATCH Input instance onto its converted target.
+    // Not part of any public API; left null on every other instance, so toMap()
+    // keeps including all fields (untracked) unless this is explicitly called.
+    void addModifiedFields(Set<String> fields) {
+        if (fields == null) {
+            return;
+        }
+        if (__modifiedFields == null) {
+            __modifiedFields = new HashSet<>();
+        }
+        __modifiedFields.addAll(fields);
+    }
+
+    // Package-private: used only by the generated REST resource's PUT method, called
+    // on the model returned by Input.toModel() before a full-replace update. PUT must
+    // treat every declared field as significant (nulling out anything omitted), unlike
+    // PATCH which must only touch fields explicitly present in the request body.
+    void clearModifiedFields() {
+        __modifiedFields = null;
     }
 
 }

@@ -50,7 +50,6 @@ import org.kie.internal.process.CorrelationKey;
 import org.kie.internal.process.CorrelationProperty;
 import org.kie.kogito.Model;
 import org.kie.kogito.Models;
-import org.kie.kogito.PartiallyBoundModel;
 import org.kie.kogito.correlation.CompositeCorrelation;
 import org.kie.kogito.correlation.Correlation;
 import org.kie.kogito.correlation.CorrelationInstance;
@@ -464,16 +463,6 @@ public abstract class AbstractProcessInstance<T extends Model> implements Proces
 
     @Override
     public T updateVariablesPartially(T updates) {
-        if (updates instanceof PartiallyBoundModel) {
-            Map<String, Object> bound = bind(updates);
-            Set<String> present = ((PartiallyBoundModel) updates).presentFields();
-            Map<String, Object> partial = new HashMap<>();
-            for (String key : present) {
-                partial.put(key, bound.get(key));
-            }
-            this.variables.update(partial);
-            return updateVariables(partial);
-        }
         return updateVariables(this.variables.updatePartially(bind(updates)));
     }
 

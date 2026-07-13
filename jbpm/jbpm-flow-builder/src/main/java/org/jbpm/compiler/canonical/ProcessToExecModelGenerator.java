@@ -222,8 +222,8 @@ public class ProcessToExecModelGenerator {
                         "get" +
                                 fieldName)));
             }
-            body.addStatement(new MethodCallExpr(new MethodCallExpr(returnName, "presentFields"), "addAll",
-                    NodeList.nodeList(new MethodCallExpr(null, "presentFields"))));
+            body.addStatement(new MethodCallExpr(returnName, "addModifiedFields",
+                    NodeList.nodeList(new MethodCallExpr(null, "getModifiedFields"))));
             body.addStatement(new ReturnStmt(returnName));
             method.setBody(body);
         }
