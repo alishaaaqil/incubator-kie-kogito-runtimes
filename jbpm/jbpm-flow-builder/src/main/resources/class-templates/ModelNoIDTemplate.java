@@ -36,9 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
                                  MappableToModel<$modelClass$> {
 
-    // This class is only ever used as an ephemeral REST request-body carrier (POST/PATCH),
-    // so it always tracks modifications - unlike the Model/Output class, it never plays a
-    // "plain, untracked" role, so this can safely be eager/non-null from construction.
+    // Ephemeral REST request-body carrier - always tracks modifications from construction.
     @JsonIgnore
     @Schema(hidden = true)
     private transient final Set<String> __modifiedFields = new HashSet<>();
@@ -50,8 +48,7 @@ public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
         return __modifiedFields;
     }
 
-    // Package-private: invoked from generated setters as each field is deserialized,
-    // so an omitted field and an explicit null can be told apart downstream.
+    // Marks a field as explicitly set, so PATCH can tell a null apart from an omitted field.
     void markModified(String field) {
         __modifiedFields.add(field);
     }

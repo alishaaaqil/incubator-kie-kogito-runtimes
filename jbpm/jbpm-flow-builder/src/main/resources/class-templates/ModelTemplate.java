@@ -56,10 +56,8 @@ public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, Map
         return __modifiedFields;
     }
 
-    // Package-private: used only by generated toModel() copy methods to carry the
-    // modified-fields set from a PATCH Input instance onto its converted target.
-    // Not part of any public API; left null on every other instance, so toMap()
-    // keeps including all fields (untracked) unless this is explicitly called.
+    // Codegen-internal: carries the modified-fields set from a PATCH Input onto
+    // its toModel() target. Left null otherwise, so toMap() includes every field.
     void addModifiedFields(Set<String> fields) {
         if (fields == null) {
             return;
@@ -70,10 +68,8 @@ public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, Map
         __modifiedFields.addAll(fields);
     }
 
-    // Package-private: used only by the generated REST resource's PUT method, called
-    // on the model returned by Input.toModel() before a full-replace update. PUT must
-    // treat every declared field as significant (nulling out anything omitted), unlike
-    // PATCH which must only touch fields explicitly present in the request body.
+    // Called by the generated PUT handler before a full-replace update, so every
+    // field counts as significant - unlike PATCH, which only touches tracked fields.
     void clearModifiedFields() {
         __modifiedFields = null;
     }

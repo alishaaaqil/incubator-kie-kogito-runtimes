@@ -227,10 +227,8 @@ public class ModelMetaData {
             fd.createGetter();
             MethodDeclaration setter = fd.createSetter();
             if (isInputModel()) {
-                // Only the Input class's setters are driven by Jackson deserialization of the
-                // incoming request; the runtime Model/Output classes reuse this same setter
-                // generation but their setters are also called by generated copy loops (e.g.
-                // toModel()), so instrumenting them there would record "copied" as "present".
+                // Only Input setters run from request deserialization - Model/Output setters
+                // are also called by generated copy loops, which would wrongly count as "set".
                 setter.getBody().ifPresent(setterBody -> setterBody.addStatement(
                         new MethodCallExpr(null, "markModified",
                                 NodeList.nodeList(new StringLiteralExpr(varName)))));
