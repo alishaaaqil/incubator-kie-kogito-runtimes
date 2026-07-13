@@ -31,18 +31,15 @@ import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 public class XXXModel implements Model, MapInput, MapInputId, MapOutput,
                                  MappableToModel<$modelClass$> {
 
     // Ephemeral REST request-body carrier - always tracks modifications from construction.
     @JsonIgnore
-    @Schema(hidden = true)
     private transient final Set<String> __modifiedFields = new HashSet<>();
 
     @JsonIgnore
-    @Schema(hidden = true)
     @Override
     public Set<String> getModifiedFields() {
         return __modifiedFields;

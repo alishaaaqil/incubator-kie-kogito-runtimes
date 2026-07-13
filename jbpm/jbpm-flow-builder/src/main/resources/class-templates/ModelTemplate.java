@@ -31,14 +31,12 @@ import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, MapOutput, MappableToModel<$modelClass$> {
 
     private String id;
 
     @JsonIgnore
-    @Schema(hidden = true)
     private transient Set<String> __modifiedFields;
 
     public void setId(String id) {
@@ -50,7 +48,6 @@ public class XXXModel implements org.kie.kogito.Model, MapInput, MapInputId, Map
     }
 
     @JsonIgnore
-    @Schema(hidden = true)
     @Override
     public Set<String> getModifiedFields() {
         return __modifiedFields;
