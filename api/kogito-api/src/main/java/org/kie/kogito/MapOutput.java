@@ -19,7 +19,6 @@
 package org.kie.kogito;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * To be implemented by classes which can express its internal information as a Map
@@ -33,14 +32,5 @@ public interface MapOutput {
      */
     default Map<String, Object> toMap() {
         return Models.toMap(this);
-    }
-
-    /**
-     * Returns the set of field names that were explicitly set (e.g. during a PATCH request).
-     * Returns null when tracking is not active — all fields are included in toMap().
-     * Returns a non-null set when tracking is active — only those fields are included.
-     */
-    default Set<String> getModifiedFields() {
-        return null;
     }
 }

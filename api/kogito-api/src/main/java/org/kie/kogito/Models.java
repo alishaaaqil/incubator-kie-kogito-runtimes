@@ -32,7 +32,7 @@ public class Models {
 
     @SuppressWarnings("squid:S3011")
     public static Map<String, Object> toMap(MapOutput m) {
-        Set<String> modifiedFields = m.getModifiedFields();
+        Set<String> modifiedFields = (m instanceof Model model) ? model.getModifiedFields() : null;
         Map<String, Object> map = new LinkedHashMap<>();
         for (Field field : m.getClass().getDeclaredFields()) {
             JsonProperty jsonAnnotation = field.getAnnotation(JsonProperty.class);
