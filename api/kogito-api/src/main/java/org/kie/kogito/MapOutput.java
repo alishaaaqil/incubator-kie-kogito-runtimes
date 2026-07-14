@@ -27,7 +27,6 @@ public interface MapOutput {
 
     /**
      * Returns class representation as map
-     *
      * @return non null map of data extracted from the class
      */
     default Map<String, Object> toMap() {
