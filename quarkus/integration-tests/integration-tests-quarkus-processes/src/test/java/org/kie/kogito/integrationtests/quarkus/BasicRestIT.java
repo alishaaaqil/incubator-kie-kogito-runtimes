@@ -253,6 +253,37 @@ class BasicRestIT {
     }
 
     @Test
+    void testPatchWithNullValue() {
+        String id = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(getParams())
+                .post("/AdHocFragments")
+                .then()
+                .statusCode(201)
+                .header("Location", not(emptyOrNullString()))
+                .body("id", not(emptyOrNullString()))
+                .body("var1", equalTo("Kermit"))
+                .body("var2", equalTo(34))
+                .extract()
+                .path("id");
+
+        // var1 set to null must be cleared, unlike an omitted field
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body("{\"var1\": null}")
+                .patch("/AdHocFragments/{customId}", id)
+                .then()
+                .statusCode(200)
+                .body("id", equalTo(id))
+                .body("var1", nullValue())
+                .body("var2", is(34));
+
+        assertExpectedUnitOfWorkEvents(2);
+    }
+
+    @Test
     void testDelete() {
         Map<String, String> params = new HashMap<>();
         params.put("var1", "Kermit");
