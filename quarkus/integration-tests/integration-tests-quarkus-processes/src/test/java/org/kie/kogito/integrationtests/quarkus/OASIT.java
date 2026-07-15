@@ -77,7 +77,6 @@ class OASIT {
         Schema resolvedSchema = openAPI.getComponents().getSchemas().get(schemaName);
         assertThat(resolvedSchema).isNotNull();
 
-
         assertThat(resolvedSchema.getProperties().keySet())
                 .containsExactlyInAnyOrder("approver", "traveller", "firstLineApproval", "secondLineApproval");
     }
